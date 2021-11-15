@@ -31,10 +31,10 @@ data_files =
     path = list.files(path = "./data", full.names = FALSE)
 ) %>%
   mutate(
-    data = map(.x = str_c("./data/", path), ~ read_csv(.x))) %>% 
+    data =purrr::map(.x = str_c("./data/", path), ~ read_csv(.x))) %>% 
   unnest(data) %>%
   separate(path, into = c("arm", "subject_id", "csv")) %>%
-  select(-csv) %>% 
+ select(-csv) %>%
   pivot_longer(
     cols = week_1:week_8,
     names_to = "week",
@@ -42,7 +42,8 @@ data_files =
     values_to = "observation"
   ) %>% 
   mutate(
-    arm = recode(arm, "con" = "Control", "exp" = "Experimental")) 
+    arm = recode(arm, "con" = "Control", "exp" = "Experimental"))
+
 data_files
 
 
